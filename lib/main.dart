@@ -29,8 +29,23 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Hello User!"),
-        backgroundColor: Color.fromARGB(48, 255, 1, 1),
+        backgroundColor: Color.fromARGB(250, 3, 210, 100),
         centerTitle: true,
+      ),
+      body: Container(
+        color: Color.fromARGB(250, 255, 21, 0),
+        width: 200,
+        height: 200,
+        padding: EdgeInsetsGeometry.all(30),
+        margin: EdgeInsets.all(100),
+        alignment: Alignment.center,
+        //decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
+        child: Center(
+          child: Text(
+            "Das ist ein Container!",
+            style: TextStyle(color: Color.fromARGB(250, 0, 0, 0), fontSize: 25),
+          ),
+        ),
       ),
     );
   }

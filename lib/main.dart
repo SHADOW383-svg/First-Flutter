@@ -32,20 +32,47 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Color.fromARGB(250, 3, 210, 100),
         centerTitle: true,
       ),
-      body: Container(
-        color: Color.fromARGB(250, 255, 21, 0),
-        width: 200,
-        height: 200,
-        padding: EdgeInsetsGeometry.all(30),
-        margin: EdgeInsets.all(100),
-        alignment: Alignment.center,
-        //decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-        child: Center(
-          child: Text(
-            "Das ist ein Container!",
-            style: TextStyle(color: Color.fromARGB(250, 0, 0, 0), fontSize: 25),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            color: Color.fromARGB(250, 255, 21, 0),
+            width: 200,
+            height: 200,
+            padding: EdgeInsetsGeometry.all(30),
+            //margin: EdgeInsets.all(100),
+            alignment: Alignment.center,
+            //decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
+            child: Center(
+              child: Text(
+                "Das ist ein Container!",
+                style: TextStyle(
+                  color: Color.fromARGB(250, 0, 0, 0),
+                  fontSize: 25,
+                ),
+              ),
+            ),
           ),
-        ),
+          Container(
+            color: Color.fromARGB(250, 255, 21, 0),
+            width: 200,
+            height: 200,
+            padding: EdgeInsetsGeometry.all(30),
+            //margin: EdgeInsets.all(100),
+            alignment: Alignment.center,
+            //decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
+            child: Center(
+              child: Text(
+                "Das ist der Zwilling eines Containers!",
+                style: TextStyle(
+                  color: Color.fromARGB(250, 0, 0, 0),
+                  fontSize: 25,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

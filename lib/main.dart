@@ -35,45 +35,57 @@ class MyHomePage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Center(
-            child: Container(
-              //color: Color.fromARGB(250, 255, 21, 0),
-              width: 200,
-              height: 200,
-              padding: EdgeInsetsGeometry.all(35),
-              margin: EdgeInsets.all(10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-                //color: Colors.blue
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.yellow.withValues(),
-                    blurRadius: 0.1,
-                    spreadRadius: 2,
-                    offset: const Offset(2, 4),
+            child: Column(
+              children: [
+                Container(
+                  width: 200,
+                  height: 200,
+                  padding: EdgeInsetsGeometry.all(35),
+                  margin: EdgeInsets.all(10),
+                  alignment: Alignment.center,
+
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.yellow.withValues(),
+                        blurRadius: 1,
+                        spreadRadius: 2,
+                        offset: const Offset(2, 4),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  "Das ist ein Container!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color.fromARGB(250, 0, 0, 0),
-                    fontSize: 25,
+                  child: Center(
+                    child: Text(
+                      "Das ist ein Container!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color.fromARGB(250, 0, 0, 0),
+                        fontSize: 25,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
           Container(
-            color: Color.fromARGB(248, 13, 184, 24),
+            //color: Color.fromARGB(248, 13, 184, 24),
             width: 300,
             height: 200,
             padding: EdgeInsets.all(20),
             margin: EdgeInsets.all(10),
             alignment: Alignment.center,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Color.fromARGB(249, 18, 154, 154),
+                  Colors.green,
+                  Colors.yellow,
+                ],
+              ),
+            ),
             //decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
             child: Center(
               child: Text(
@@ -82,6 +94,7 @@ class MyHomePage extends StatelessWidget {
                 style: TextStyle(
                   color: Color.fromARGB(250, 0, 0, 0),
                   fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

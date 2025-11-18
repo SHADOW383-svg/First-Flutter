@@ -16,33 +16,31 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ), //Gloable/Standart Farbe der App
       home:
-          const MyHomePage(), //Welche Seite/Widget beim starten der App gezeigt wird
+          const HomePage(), //Welche Seite/Widget beim starten der App gezeigt wird
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  // Liste mit Farben, die durchgewechselt werden sollen
-  final List<Color> circleColors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-  ];
+class _HomePageState extends State<HomePage> {
+  String originalText = "This text has been changed";
+  String get toggle => originalText;
+  String newText = "this is the original text";
 
-  int currentIndex = 1; // Startfarbe
-
-  void changeColor() {
+  void changeText() {
     setState(() {
-      currentIndex = (currentIndex + 1) % circleColors.length;
+      //Toggle for the replacing text logic
+      if (newText == originalText) {
+        newText = "this is the original text";
+      } else {
+        newText = originalText;
+      }
     });
   }
 
@@ -50,73 +48,53 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hello User!"),
-        backgroundColor: const Color.fromARGB(250, 3, 210, 100),
+        title: Text("Responding Grid"),
         centerTitle: true,
+        backgroundColor: Colors.green,
       ),
-      body: Column(
-        children: [
-          Center(
-            child: GestureDetector(
-              onTap: changeColor,
-              child: AnimatedContainer(
-                duration: const Duration(seconds: 2),
-                width: 200,
-                height: 200,
-                padding: const EdgeInsets.all(35),
-                margin: const EdgeInsets.all(10),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: circleColors[currentIndex],
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.yellow.withValues(),
-                      blurRadius: 1,
-                      spreadRadius: 2,
-                      offset: const Offset(2, 4),
-                    ),
-                  ],
-                ),
-                child: const Center(
-                  child: Text(
-                    "Tippe mich!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black, fontSize: 25),
-                  ),
-                ),
-              ),
+
+      body: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(20),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 2,
+        children: <Widget>[
+          GestureDetector(
+            onTap: changeText,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              color: Colors.teal[100],
+              child: Text(newText),
             ),
           ),
-
+          GestureDetector(
+            onTap: changeText,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              color: Colors.teal[200],
+              child: Text(newText),
+            ),
+          ),
           Container(
-            //color: Color.fromARGB(248, 13, 184, 24),
-            width: 300,
-            height: 200,
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color.fromARGB(249, 18, 154, 154),
-                  Colors.green,
-                  Colors.yellow,
-                ],
-              ),
-            ),
-            //decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-            child: Center(
-              child: Text(
-                "Das ist der Zwilling eines Containers!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(250, 0, 0, 0),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            padding: const EdgeInsets.all(8),
+            color: Colors.teal[300],
+            child: const Text('Sound of screams but the'),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.teal[400],
+            child: const Text('Who scream'),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.teal[500],
+            child: const Text('Revolution is coming...'),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.teal[500],
+            child: const Text('Revolution is coming...'),
           ),
         ],
       ),

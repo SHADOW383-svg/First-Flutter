@@ -68,34 +68,6 @@ class _HomePageState extends State<HomePage> {
               child: Text(newText),
             ),
           ),
-          GestureDetector(
-            onTap: changeText,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              color: Colors.teal[200],
-              child: Text(newText),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.teal[300],
-            child: const Text('Sound of screams but the'),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.teal[400],
-            child: const Text('Who scream'),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.teal[500],
-            child: const Text('Revolution is coming...'),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.teal[500],
-            child: const Text('Revolution is coming...'),
-          ),
         ],
       ),
     );

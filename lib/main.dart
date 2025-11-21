@@ -4,20 +4,13 @@ void main() {
   runApp(const MyApp());
 }
 
-//Globales WIdget -> beschreibt festgelegte Parameter der App im ganzen
+// Globales Widget -> beschreibt festgelegte Parameter der App im ganzen
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Deine App', //Name der App für das Gerät
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ), //Gloable/Standart Farbe der App
-      home:
-          const HomePage(), //Welche Seite/Widget beim starten der App gezeigt wird
-    );
+    return const MaterialApp(title: 'Deine App', home: HomePage());
   }
 }
 
@@ -29,18 +22,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String originalText = "This text has been changed";
-  String get toggle => originalText;
-  String newText = "this is the original text";
+  // Name konsistent: tileColors
+  List<Color> tileColors = List.generate(6, (_) => Colors.teal);
 
-  void changeText() {
+  void toggle(int index) {
     setState(() {
-      //Toggle for the replacing text logic
-      if (newText == originalText) {
-        newText = "this is the original text";
-      } else {
-        newText = originalText;
-      }
+      tileColors[index] = tileColors[index] == Colors.teal
+          ? Colors.red
+          : Colors.green;
     });
   }
 
@@ -48,27 +37,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Responding Grid"),
+        title: const Text("Responding Grid"),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
-
-      body: GridView.count(
-        primary: false,
+      body: GridView.builder(
         padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: <Widget>[
-          GestureDetector(
-            onTap: changeText,
+        // gridDelegate ist zwingend bei GridView.builder
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Anzahl Spalten
+          crossAxisSpacing: 10, // Abstand horizontal
+          mainAxisSpacing: 10, // Abstand vertikal
+          // optional: childAspectRatio: 1, // Seitenverhältnis der Zellen
+        ),
+        itemCount: tileColors.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () => toggle(index),
             child: Container(
-              padding: const EdgeInsets.all(8),
-              color: Colors.teal[100],
-              child: Text(newText),
+              color: tileColors[index],
+              child: Center(
+                child: Text(
+                  "Kachel $index",
+                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

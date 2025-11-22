@@ -21,6 +21,34 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+class GridItem {
+  bool selected;
+
+  GridItem(this.selected);
+}
+
+final items = List.generate(20, (_) => GridItem(false));
+
+class GridTileWidget extends StatelessWidget {
+  final GridItem item;
+  final VoidCallback onToggle;
+
+  const GridTileWidget({super.key, required this.item, required this.onToggle});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onToggle,
+      child: Container(
+        decoration: BoxDecoration(
+          color: item.selected ? Colors.blue : Colors.grey,
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
+  }
+}
+
 class _HomePageState extends State<HomePage> {
   // Name konsistent: tileColors
   List<Color> tileColors = List.generate(6, (_) => Colors.teal);
@@ -42,27 +70,20 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.green,
       ),
       body: GridView.builder(
-        padding: const EdgeInsets.all(20),
-        // gridDelegate ist zwingend bei GridView.builder
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Anzahl Spalten
-          crossAxisSpacing: 10, // Abstand horizontal
-          mainAxisSpacing: 10, // Abstand vertikal
-          // optional: childAspectRatio: 1, // Seitenverhältnis der Zellen
+          crossAxisCount: 3,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
         ),
-        itemCount: tileColors.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () => toggle(index),
-            child: Container(
-              color: tileColors[index],
-              child: Center(
-                child: Text(
-                  "Kachel $index",
-                  style: const TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            ),
+          return GridTileWidget(
+            item: items[index],
+            onToggle: () {
+              setState(() {
+                items[index].selected = !items[index].selected;
+              });
+            },
           );
         },
       ),

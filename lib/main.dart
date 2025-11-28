@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Deine App', home: HomePage());
+    return const MaterialApp(title: 'My App', home: HomePage());
   }
 }
 
@@ -21,43 +21,14 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class GridItem {
-  bool selected;
-
-  GridItem(this.selected);
-}
-
-final items = List.generate(20, (_) => GridItem(false));
-
-class GridTileWidget extends StatelessWidget {
-  final GridItem item;
-  final VoidCallback onToggle;
-
-  const GridTileWidget({super.key, required this.item, required this.onToggle});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onToggle,
-      child: Container(
-        decoration: BoxDecoration(
-          color: item.selected ? Colors.blue : Colors.grey,
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    );
-  }
-}
-
 class _HomePageState extends State<HomePage> {
-  // Name konsistent: tileColors
-  List<Color> tileColors = List.generate(6, (_) => Colors.teal);
+  final List<Color> colorList = List.generate(12, (_) => Colors.teal);
 
-  void toggle(int index) {
+  void toggleTile(int index) {
     setState(() {
-      tileColors[index] = tileColors[index] == Colors.teal
+      colorList[index] = colorList[index] == Colors.teal
           ? Colors.red
-          : Colors.green;
+          : Colors.teal;
     });
   }
 
@@ -65,25 +36,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Responding Grid"),
+        title: Text("What ever"),
+        backgroundColor: Colors.cyan,
         centerTitle: true,
-        backgroundColor: Colors.green,
       ),
       body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        itemCount: colorList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
+          childAspectRatio: 1,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return GridTileWidget(
-            item: items[index],
-            onToggle: () {
-              setState(() {
-                items[index].selected = !items[index].selected;
-              });
-            },
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () => toggleTile(index),
+            child: Container(
+              color: colorList[index],
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.all(10),
+              alignment: Alignment.center,
+              child: Text("Hello World"),
+            ),
           );
         },
       ),

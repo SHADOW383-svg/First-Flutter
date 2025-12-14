@@ -4,13 +4,13 @@ void main() {
   runApp(const MyApp());
 }
 
-// Globales Widget
+// Globales Widget -> beschreibt festgelegte Parameter der App im ganzen
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Ampel', home: HomePage());
+    return const MaterialApp(title: 'My App', home: HomePage());
   }
 }
 
@@ -25,22 +25,20 @@ class Ampel extends ChangeNotifier {
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
 
-  final Map<int, (Color, Color, Color)> phases = {
-    0: (Colors.red, Colors.grey, Colors.grey), // Rot
-    1: (Colors.red, Colors.yellow, Colors.grey), // Rot + Gelb
-    2: (Colors.grey, Colors.grey, Colors.green), // Grün
-    3: (Colors.grey, Colors.yellow, Colors.grey), // Gelb
-  };
+  List<Color> farbe = [Colors.red, Colors.yellow, Colors.green];
 
-  void nextPhase() {
-    _currentIndex = (_currentIndex + 1) % phases.length;
+  void changeColor() {
+    _currentIndex = currentIndex + 1;
+
+    if (_currentIndex == farbe.length) {
+      _currentIndex = 0;
+    }
     notifyListeners();
   }
 }
 
 class _HomePageState extends State<HomePage> {
-  late final Ampel ampel1;
-
+  late Ampel ampel1;
   @override
   void initState() {
     super.initState();
@@ -64,34 +62,71 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ListenableBuilder(
               listenable: ampel1,
               builder: (context, child) {
-                final phase = ampel1.phases[ampel1.currentIndex]!;
-
                 return Column(
-                  children: [_lamp(phase.$1), _lamp(phase.$2), _lamp(phase.$3)],
+                  children: [
+                    Container(
+                      width: 120,
+                      height: 120,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: ampel1.currentIndex == 0
+                            ? ampel1.farbe[0]
+                            : Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+
+                    Container(
+                      width: 120,
+                      height: 120,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color:
+                            ampel1.currentIndex ==
+                                1 // <-- LED-Index ist 2 (GRÜN)
+                            ? ampel1.farbe[1]
+                            : Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    Container(
+                      width: 120,
+                      height: 120,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color:
+                            ampel1.currentIndex ==
+                                2 // <-- LED-Index ist 2 (GRÜN)
+                            ? ampel1.farbe[2]
+                            : Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
-            const SizedBox(height: 20),
+
             TextButton(
-              onPressed: ampel1.nextPhase,
-              child: const Text("Nächste Phase"),
+              onPressed: () {
+                ampel1.changeColor();
+              },
+              child: Text("Press here, to change the Color"),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _lamp(Color color) {
-    return Container(
-      width: 120,
-      height: 120,
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 }

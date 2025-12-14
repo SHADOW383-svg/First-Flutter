@@ -4,17 +4,16 @@ void main() {
   runApp(const MyApp());
 }
 
-// Globales Widget -> beschreibt festgelegte Parameter der App im ganzen
+// Globales Widget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'My App', home: HomePage());
+    return const MaterialApp(title: 'Ampel', home: HomePage());
   }
 }
 
-//Das ist essentiell, wenn man mit StatefulWidgets arbeiten will
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -26,20 +25,21 @@ class Ampel extends ChangeNotifier {
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
 
-  List<Color> farbe = [Colors.red, Colors.yellow, Colors.green];
+  final Map<int, (Color, Color, Color)> phases = {
+    0: (Colors.red, Colors.grey, Colors.grey), // Rot
+    1: (Colors.red, Colors.yellow, Colors.grey), // Rot + Gelb
+    2: (Colors.grey, Colors.grey, Colors.green), // Grün
+    3: (Colors.grey, Colors.yellow, Colors.grey), // Gelb
+  };
 
-  void changeColor() {
-    _currentIndex = currentIndex + 1;
-
-    if (_currentIndex == farbe.length) {
-      _currentIndex = 0;
-    }
+  void nextPhase() {
+    _currentIndex = (_currentIndex + 1) % phases.length;
     notifyListeners();
   }
 }
 
 class _HomePageState extends State<HomePage> {
-  late Ampel ampel1;
+  late final Ampel ampel1;
 
   @override
   void initState() {
@@ -64,61 +64,34 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ListenableBuilder(
               listenable: ampel1,
               builder: (context, child) {
-                return Column(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 120,
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: ampel1.farbe[ampel1.currentIndex],
-                        shape: BoxShape.circle,
-                      ),
-                    ),
+                final phase = ampel1.phases[ampel1.currentIndex]!;
 
-                    Container(
-                      width: 120,
-                      height: 120,
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: ampel1.farbe[ampel1.currentIndex],
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    Container(
-                      width: 120,
-                      height: 120,
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: ampel1.farbe[ampel1.currentIndex],
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
+                return Column(
+                  children: [_lamp(phase.$1), _lamp(phase.$2), _lamp(phase.$3)],
                 );
               },
             ),
-
+            const SizedBox(height: 20),
             TextButton(
-              onPressed: () {
-                ampel1.changeColor();
-              },
-              child: Text("Press here, to change the Color"),
+              onPressed: ampel1.nextPhase,
+              child: const Text("Nächste Phase"),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _lamp(Color color) {
+    return Container(
+      width: 120,
+      height: 120,
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 }

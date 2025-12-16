@@ -90,9 +90,7 @@ class _HomePageState extends State<HomePage> {
                       margin: EdgeInsets.all(10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color:
-                            ampel1.currentIndex ==
-                                1 // <-- LED-Index ist 2 (GRÜN)
+                        color: ampel1.currentIndex == 1
                             ? ampel1.farbe[1]
                             : Colors.black,
                         shape: BoxShape.circle,
@@ -105,9 +103,7 @@ class _HomePageState extends State<HomePage> {
                       margin: EdgeInsets.all(10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color:
-                            ampel1.currentIndex ==
-                                2 // <-- LED-Index ist 2 (GRÜN)
+                        color: ampel1.currentIndex == 2
                             ? ampel1.farbe[2]
                             : Colors.black,
                         shape: BoxShape.circle,

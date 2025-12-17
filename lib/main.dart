@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -39,14 +40,20 @@ class Ampel extends ChangeNotifier {
 
 class _HomePageState extends State<HomePage> {
   late Ampel ampel1;
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
     ampel1 = Ampel();
+
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      ampel1.changeColor();
+    });
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     ampel1.dispose();
     super.dispose();
   }
@@ -114,12 +121,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
 
-            TextButton(
-              onPressed: () {
-                ampel1.changeColor();
-              },
-              child: Text("Press here, to change the Color"),
-            ),
+            TextButton(onPressed: null, child: Text("Press to automate")),
           ],
         ),
       ),
